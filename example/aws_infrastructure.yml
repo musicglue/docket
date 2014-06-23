@@ -10,4 +10,4 @@ development:
           protocol: :cqs
           endpoint: :terset
           attributes:
-            RawDelivery: true
+            RawMessageDelivery: true
