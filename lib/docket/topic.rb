@@ -17,14 +17,14 @@ module Docket
     end
 
     def publish(message)
-      @connection.publish(topic_arm: arn, message: message)
+      @connection.publish(topic_arn: arn, message: message)
     end
 
     def subscriptions
-      unless @subscriptions.blank?
+      if @subscriptions.blank?
         @subscriptions = []
         @connection.list_subscriptions_by_topic(topic_arn: arn).subscriptions.each do |sub|
-          @subscriptions << Docket::S3::SNS::Subscription.new(self, @connection, sub)
+          @subscriptions << Docket::SNS::Subscription.new(self, @connection, sub)
         end
       end
       @subscriptions

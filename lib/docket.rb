@@ -3,10 +3,11 @@ require 'active_support/core_ext'
 require 'aws-sdk-core'
 require 'uuid'
 
+require 'docket/builder'
 require 'docket/topic'
 require 'docket/topic_directory'
 require 'docket/message'
-require 'docket/s3/sns/subscription'
+require 'docket/sns/subscription'
 
 module Docket
   VERSION = '1.0.0'
@@ -31,12 +32,16 @@ module Docket
         aws.region    = 'eu-west-1'
         aws.endpoint  = nil
       end
-      topics = TopicDirectory.new
+      x.topics = TopicDirectory.new
     end
   end
 
   def configure(&block)
     yield(config)
+  end
+
+  def credentials
+    @credentials ||= Aws::Credentials.new(config.aws.credentials[:access_key_id], config.aws.credentials[:secret_access_key])
   end
 
 end

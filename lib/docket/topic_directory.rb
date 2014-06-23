@@ -11,7 +11,7 @@ module Docket
     end
 
     def add_topic(name, options={})
-      Topic.new(name, options)
+      topic = Topic.new(name, options)
       @topics[topic.to_sym] = topic
     end
 

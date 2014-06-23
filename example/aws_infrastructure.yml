@@ -1,0 +1,13 @@
+development:
+  sqs:
+    -
+      name: :terset
+  sns:
+    -
+      topic: :test_topic
+      subscriptions:
+        -
+          protocol: :cqs
+          endpoint: :terset
+          attributes:
+            RawDelivery: true
