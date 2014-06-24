@@ -2,12 +2,15 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'aws-sdk-core'
 require 'uuid'
+require 'colorize'
 
 require 'docket/builder'
 require 'docket/topic'
 require 'docket/topic_directory'
 require 'docket/message'
 require 'docket/sns/subscription'
+
+require 'docket/railtie' if defined?(Rails)
 
 module Docket
   VERSION = '1.0.0'
