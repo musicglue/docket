@@ -14,7 +14,6 @@ require 'docket/railtie' if defined?(Rails)
 
 module Docket
   VERSION = '1.0.0'
-  ROOT_PATH = File.dirname(File.dirname(__FILE__))
 
   module_function
 
@@ -35,6 +34,9 @@ module Docket
         aws.region    = 'eu-west-1'
         aws.endpoint  = nil
       end
+      x.builder = ActiveSupport::OrderedOptions.new.tap do |builder|
+        builder.path = nil
+        builder.path = File.join(Rails.root, 'config', 'docket_manifest.yml') if defined?(Rails)
       x.topics = TopicDirectory.new
     end
   end
