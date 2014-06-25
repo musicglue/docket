@@ -7,7 +7,7 @@ module Docket
     end
 
     def topic_name
-      self.class.message.class.to_s.underscore.dasherize.sub(/-message$/, '')
+      self.class.to_s.underscore.dasherize.sub(/-message$/, '')
     end
 
     def payload
@@ -26,7 +26,7 @@ module Docket
 
     def publish!
       if valid?
-        Docket.topics[topic_name].publish!(payload.to_json)
+        Docket.topics[topic_name].publish(payload.to_json)
       end
     end
 
