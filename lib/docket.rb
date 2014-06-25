@@ -14,6 +14,7 @@ require 'docket/railtie' if defined?(Rails)
 
 module Docket
   VERSION = '1.0.0'
+  ROOT_PATH = File.dirname(File.dirname(__FILE__))
 
   module_function
 
@@ -37,6 +38,7 @@ module Docket
       x.builder = ActiveSupport::OrderedOptions.new.tap do |builder|
         builder.path = nil
         builder.path = File.join(Rails.root, 'config', 'docket_manifest.yml') if defined?(Rails)
+      end
       x.topics = TopicDirectory.new
     end
   end
