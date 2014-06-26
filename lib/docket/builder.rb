@@ -16,8 +16,8 @@ module Docket
         say_status :warning, "Manifest file blank, aborting", :yellow
         return
       end
-      build_sqs if @manifest[:queues].any?
-      build_sns if @manifest[:topics].any?
+      build_sqs if (@manifest[:queues] || []).any?
+      build_sns if (@manifest[:topics] || []).any?
     end
 
     def build_sqs
