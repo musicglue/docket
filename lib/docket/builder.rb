@@ -52,7 +52,7 @@ module Docket
     end
 
     def build_sns
-      say_status :info, "Building #{@manifest[:queues].count} topic(s)", :light_blue
+      say_status :info, "Building #{@manifest[:topics].count} topic(s)", :light_blue
 
       @manifest[:topics].each do |topic|
         arn = @sns_connection.create_topic(name: [topic[:topic].to_s.dasherize, Docket.env.downcase].join('-')).topic_arn
