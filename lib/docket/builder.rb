@@ -70,7 +70,9 @@ module Docket
 
           say_status :success, "Subscription #{endpoint} created successfully", :green
 
-          sub[:attributes].each do |key, value|
+          attributes = { RawMessageDelivery: true }.merge(sub[:attributes] || {})
+          
+          attributes.each do |key, value|
             next if key.blank? || value.blank?
 
             say_status :success, "Set #{key} on #{sub_arn}", :green
