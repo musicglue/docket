@@ -1,5 +1,6 @@
 module Docket
   class Builder
+    include Docket::Logging
 
     def initialize(file_path)
       @manifest = YAML.load(File.read(file_path))[Docket.env] || {}
@@ -71,7 +72,7 @@ module Docket
           say_status :success, "Subscription #{endpoint} created successfully", :green
 
           attributes = { RawMessageDelivery: true }.merge(sub[:attributes] || {})
-          
+
           attributes.each do |key, value|
             next if key.blank? || value.blank?
 
@@ -92,13 +93,5 @@ module Docket
           endpoint: Docket.config.aws.endpoint
         }.reject { |k, v| v.blank? }
       end
-
-      def say_status status, message, colour
-        output = []
-        output << "[#{status.to_s.upcase.colorize(colour)}]".ljust(30)
-        output << message
-        puts output.join(' ')
-      end
-
   end
 end
