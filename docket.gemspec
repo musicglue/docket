@@ -7,8 +7,8 @@ Gem::Specification.new do |spec|
   spec.version       = '1.0.0'
   spec.authors       = ["Adam Carlile"]
   spec.email         = ["adam@benchmedia.co.uk"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Sends messages to SNS.}
+  spec.description   = %q{Sends messages to SNS.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
