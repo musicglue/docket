@@ -21,13 +21,17 @@ module Docket
 
     private
 
+    def docket_id
+      @docket_id ||= SecureRandom.uuid
+    end
+
     def headers
       {}
     end
 
     def payload
       {
-        header: headers.merge(type: topic_name, version: version),
+        header: headers.merge(id: docket_id, type: topic_name, version: version),
         body: attributes
       }
     end
