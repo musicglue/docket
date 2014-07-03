@@ -27,20 +27,17 @@ module Docket
       @manifest[:queues].each do |queue|
         queue_name = [queue[:name].to_s.dasherize, Docket.env.downcase].join('-')
 
-        say_status :info, "Queue #{queue_name} requested, and waiting till it becomes available on AWS", :light_blue
+        say_status :info, "Queue #{queue_name} requested", :light_blue
 
         @sqs_connection.create_queue(queue_name: queue_name)
-        until queue_url = @sqs_connection.list_queues.queue_urls.map(&:strip).find { |x| x =~ /#{queue_name}/ }
-          print '.'
-          sleep(1)
-        end
+        queue_url = wait_for_queue queue_name
 
         if queue[:attributes]
           attrs = queue[:attributes]
+
           if attrs['RedrivePolicy'] && attrs['RedrivePolicy']['deadLetterTargetArn'].is_a?(Symbol)
             dead_letter_name  = [attrs['RedrivePolicy']['deadLetterTargetArn'].to_s.dasherize, Docket.env.downcase].join('-')
-            binding.pry
-            dead_letter_url   = @sqs_connection.list_queues.queue_urls.map(&:strip).find { |x| x =~ /#{dead_letter_name}/ }
+            dead_letter_url   = wait_for_queue dead_letter_name
             dead_letter_arn   = @sqs_connection.get_queue_attributes(queue_url: dead_letter_url, attribute_names: ['QueueArn']).attributes['QueueArn']
             attrs['RedrivePolicy']['deadLetterTargetArn'] = dead_letter_arn
           end
@@ -62,11 +59,12 @@ module Docket
 
         (topic[:subscriptions] || []).each do |sub|
           if sub[:protocol] == :sqs || sub[:protocol] == :cqs
-            url = @sqs_connection.list_queues.queue_urls.detect {|x| x.match /#{sub[:endpoint].to_s.dasherize}-#{Docket.env.downcase}/ }
+            url = wait_for_queue "#{sub[:endpoint].to_s.dasherize}-#{Docket.env.downcase}"
             endpoint = @sqs_connection.get_queue_attributes(queue_url: url, attribute_names: ['QueueArn']).attributes['QueueArn']
           else
             endpoint = sub[:endpoint]
           end
+
           sub_arn = @sns_connection.subscribe(topic_arn: arn, protocol: sub[:protocol], endpoint: endpoint).subscription_arn
 
           say_status :success, "Subscription #{endpoint} created successfully", :green
@@ -92,6 +90,19 @@ module Docket
           region: Docket.config.aws.region,
           endpoint: Docket.config.aws.endpoint
         }.reject { |k, v| v.blank? }
+      end
+
+      def wait_for_queue name
+        say_status :info, "Checking for existance of queue #{name}...", :light_blue
+
+        begin
+          url = @sqs_connection.get_queue_url(queue_name: name).data.queue_url
+        rescue Aws::SQS::Errors::NonExistentQueue => e
+          print '.'
+          sleep 1
+        end while url.blank?
+
+        url
       end
   end
 end
