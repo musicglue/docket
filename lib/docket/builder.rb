@@ -37,6 +37,7 @@ module Docket
 
           if attrs['RedrivePolicy'] && attrs['RedrivePolicy']['deadLetterTargetArn'].is_a?(Symbol)
             dead_letter_name  = [attrs['RedrivePolicy']['deadLetterTargetArn'].to_s.dasherize, Docket.env.downcase].join('-')
+            @sqs_connection.create_queue(queue_name: dead_letter_name)
             dead_letter_url   = wait_for_queue dead_letter_name
             dead_letter_arn   = @sqs_connection.get_queue_attributes(queue_url: dead_letter_url, attribute_names: ['QueueArn']).attributes['QueueArn']
             attrs['RedrivePolicy']['deadLetterTargetArn'] = dead_letter_arn
