@@ -8,6 +8,7 @@ require 'docket/builder'
 require 'docket/console_sender'
 require 'docket/topic'
 require 'docket/topic_directory'
+require 'docket/message_invalid'
 require 'docket/message'
 require 'docket/sns/subscription'
 

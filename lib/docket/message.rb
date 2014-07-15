@@ -12,7 +12,8 @@ module Docket
     end
 
     def publish!
-      Docket.topics[topic_name].publish(payload.to_json) if valid?
+      raise Docket::MessageInvalid, errors if invalid?
+      Docket.topics[topic_name].publish(payload.to_json)
     end
 
     def topic_name
