@@ -8,8 +8,8 @@ module Docket
 
       config = @manifest[:config] || {}
 
-      @sns_connection = Aws.sns(connection_options.merge((config[:topics] || {})))
-      @sqs_connection = Aws.sqs(connection_options.merge((config[:queues] || {})))
+      @sns_connection = Aws::SNS::Client.new(connection_options.merge((config[:topics] || {})))
+      @sqs_connection = Aws::SQS::Client.new(connection_options.merge((config[:queues] || {})))
     end
 
     def build!

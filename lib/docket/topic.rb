@@ -5,7 +5,7 @@ module Docket
 
     def initialize(name, connection_options={})
       @name           = name.to_s.underscore.downcase.to_sym
-      @connection     = Aws.sns(options.merge(connection_options))
+      @connection     = Aws::SNS::Client.new(options.merge(connection_options))
     end
 
     def to_sym
