@@ -20,6 +20,10 @@ module Docket
       self.class.to_s.underscore.dasherize.sub(/-message$/, '')
     end
 
+    def to_h
+      payload
+    end
+
     private
 
     def docket_id
