@@ -5,6 +5,7 @@ require 'colorize'
 
 require 'docket/logging'
 require 'docket/builder'
+require 'docket/message_sanitizer'
 require 'docket/console_sender'
 require 'docket/topic'
 require 'docket/topic_directory'
