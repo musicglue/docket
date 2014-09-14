@@ -6,6 +6,12 @@ module Docket
       include ActiveModel::Model
     end
 
+    module ClassMethods
+      def topic_name
+        to_s.underscore.dasherize.sub /-message$/, ''
+      end
+    end
+
     def attributes
       # NOOP
       raise NotImplementedError
@@ -17,7 +23,7 @@ module Docket
     end
 
     def topic_name
-      self.class.to_s.underscore.dasherize.sub(/-message$/, '')
+      self.class.topic_name
     end
 
     def to_h
