@@ -2,7 +2,7 @@ env:
   global:
   - AMAZON_S3_BUCKET=musicglue-bundle-cache
   - AMAZON_ACCESS_KEY_ID=AKIAITNVCO5SLJMTVVYQ
-  - secure: SZBJ3ltbbVorx3XsvysFBFwINmljuLpIUWTuX3mBBgQBSuHwicncOg3wSlGIZ3ZUfBbGLFfqRQUVTzYx5hrdHJOOC6sIfXf/Or+OApsy8x/PB5Lep9MAD9MRixdudaxjbiQqpUYb3ROI40CwERfQjHYSug9mRmTnK+3ThH2a8mY=
+  - secure: fewQhnxJOhA3u1EGnsbGu3GkfQiFJYt2PkR4gzmxl1iATlxjyMt7UHejInGjwkb9n6yb+uiKrE8iigWP6td+8330YtYnIyUhIvlIbxOpwgI3QhEFniHc7AsypJdcDP5zXPy8LyC1TNJ9Gnah7NcWi15SXr2VTfq4CUDcfVjPTGk=
 
 rvm:
   - ruby-2.1.2
