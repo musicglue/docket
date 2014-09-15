@@ -3,9 +3,7 @@ module Docket
     extend ActiveSupport::Concern
 
     included do
-      include ActiveAttr::Attributes
-      include ActiveAttr::MassAssignment
-      include ActiveModel::ForbiddenAttributesProtection
+      include ActiveAttr::Model
     end
 
     module ClassMethods
