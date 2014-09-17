@@ -3,18 +3,13 @@ module Docket
     extend ActiveSupport::Concern
 
     included do
-      include ActiveModel::Model
+      include ActiveAttr::Model
     end
 
     module ClassMethods
       def topic_name
         to_s.underscore.dasherize.sub /-message$/, ''
       end
-    end
-
-    def attributes
-      # NOOP
-      raise NotImplementedError
     end
 
     def publish!

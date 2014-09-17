@@ -2,8 +2,8 @@
 *.rbc
 .bundle
 .config
+.envrc
 .yardoc
-Gemfile.lock
 InstalledFiles
 _yardoc
 coverage
@@ -15,6 +15,7 @@ spec/reports
 test/tmp
 test/version_tmp
 tmp
+vendor/bin
 *.bundle
 *.so
 *.o
