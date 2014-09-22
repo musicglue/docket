@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "docket"
-  spec.version       = '1.0.0'
+  spec.version       = '1.1.0'
   spec.authors       = ["Adam Carlile"]
   spec.email         = ["adam@benchmedia.co.uk"]
   spec.summary       = %q{Sends messages to SNS.}
@@ -22,7 +22,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'activesupport'
   spec.add_runtime_dependency 'aws-sdk-core'
   spec.add_runtime_dependency 'colorize'
-  spec.add_runtime_dependency 'thor'
 
   spec.add_development_dependency 'awesome_print'
   spec.add_development_dependency 'bundler'

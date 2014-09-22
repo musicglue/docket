@@ -7,7 +7,10 @@ module Docket
     end
 
     def send!
-      error "A TOPIC is required." if @topic.blank?
+      if @topic.blank?
+        error log_data.merge error: 'topic is required'
+        exit 1
+      end
 
       parse_message_class
       prepare_body
@@ -15,33 +18,36 @@ module Docket
 
       @message.publish!
 
-      say_status :info, "Message sent", :light_blue
+      error log_data.merge at: 'message_sent', topic: @topic
     end
 
     private
 
-    def error message
-      say_status :error, message, :red
-      exit 1
+    def log_data
+      { component: 'docket_console_sender' }
     end
 
     def instantiate_message
       begin
         @message = @message_class.new(ActiveSupport::JSON.decode @body)
       rescue => e
-        error "Unable to instantiate message class #{@message_class} with attrs: #{@body}. Error was: #{e}"
+        error log_data.merge(at: 'instantiate_message', message_class: @message_class, body: @body), e
+        exit 1
       end
-    end
-
-    def prepare_body
-      @body = '{}' if @body.blank?
     end
 
     def parse_message_class
       klass_name = "#{@topic}-message".gsub(/-/, '_').classify
       @message_class = klass_name.safe_constantize
 
-      error "No message class found called #{klass_name}" unless @message_class
+      unless @message_class
+        error log_data.merge(at: 'parse_message_class', unknown_class: klass_name)
+        exit 1
+      end
+    end
+
+    def prepare_body
+      @body = '{}' if @body.blank?
     end
   end
 end
