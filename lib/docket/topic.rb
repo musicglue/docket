@@ -4,7 +4,11 @@ module Docket
 
     def initialize name
       @name = name.to_s.underscore.downcase.to_sym
-      @sns = Aws::SNS::Client.new endpoint: Docket.config.sns.endpoint
+
+      attrs = {}
+      attrs[:endpoint] = Docket.config.sns.endpoint unless Docket.config.sns.endpoint.blank?
+
+      @sns = Aws::SNS::Client.new attrs
     end
 
     def arn
